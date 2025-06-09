@@ -4,6 +4,7 @@ import com.wastewise.worker.management.dto.WorkerCreateDTO;
 import com.wastewise.worker.management.dto.WorkerDTO;
 import com.wastewise.worker.management.dto.WorkerUpdateDTO;
 import com.wastewise.worker.management.enums.WorkerStatus;
+import com.wastewise.worker.management.exception.ContactInformationUsedException;
 import com.wastewise.worker.management.exception.WorkerNotFoundException;
 import com.wastewise.worker.management.mapper.WorkerMapper;
 import com.wastewise.worker.management.model.Worker;
@@ -17,13 +18,13 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class WorkerService implements com.wastewise.worker.management.service.WorkerService {
+public class WorkerServiceImpl implements com.wastewise.worker.management.service.WorkerService {
 
     private final WorkerRepository workerRepository;
     private final WorkerMapper workerMapper;
 
-    public WorkerService(WorkerRepository workerRepository,
-                         WorkerMapper workerMapper) {
+    public WorkerServiceImpl(WorkerRepository workerRepository,
+                             WorkerMapper workerMapper) {
         this.workerRepository = workerRepository;
         this.workerMapper = workerMapper;
     }
@@ -44,8 +45,14 @@ public class WorkerService implements com.wastewise.worker.management.service.Wo
         String id = generateWorkerId();
 
         log.info("Creating new worker: {}", id);
+        if(workerRepository.existsByContactNumber(dto.getContactNumber()) ||
+                (workerRepository.existsByContactEmail(dto.getContactEmail()) && dto.getContactEmail()!= null)){
+            throw new ContactInformationUsedException("The given contact number is already being used, please enter a different number");
+        }
 
         Worker worker = workerMapper.toEntity(dto);
+        WorkerStatus status = WorkerStatus.valueOf(dto.getWorkerStatus());
+        worker.setWorkerStatus(status);
         worker.setWorkerId(id);
         worker.setCreatedDate(LocalDateTime.now());
         workerRepository.save(worker);

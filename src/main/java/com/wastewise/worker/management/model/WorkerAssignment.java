@@ -8,10 +8,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-
-/**
- * Entity representing assignment of a worker to a zone/route for a shift.
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

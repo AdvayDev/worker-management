@@ -59,7 +59,7 @@ public class WorkerAssignmentServiceImpl implements com.wastewise.worker.managem
                 .orElseThrow(() -> new WorkerNotFoundException("Worker not found with ID: " + workerId));
 
         if (worker.getWorkerStatus() != WorkerStatus.AVAILABLE) {
-            throw new IllegalStateException("Worker is not available for assignment");
+            throw new WorkersAlreadyAssignedException("Worker is not available for assignment");
         }
 
         WorkerAssignment assignment = new WorkerAssignment();

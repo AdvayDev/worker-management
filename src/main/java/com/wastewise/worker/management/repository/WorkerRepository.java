@@ -1,6 +1,8 @@
 package com.wastewise.worker.management.repository;
 
 import com.wastewise.worker.management.model.Worker;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -18,4 +20,8 @@ public interface WorkerRepository extends JpaRepository<Worker,String> {
 
     @Query("Select w.workerId from Worker w WHERE w.workerStatus = 'available' AND w.roleId = '003'")
     List<String> findWorkerIdAvailableStatus();
+
+    boolean existsByContactNumber(String contactNumber);
+
+    boolean existsByContactEmail(String contactEmail);
 }

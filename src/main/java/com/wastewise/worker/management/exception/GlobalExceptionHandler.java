@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<String> handleResourceNotFound(ResourceNotFoundException ex) {
         log.error("Resource not found exception thrown and handled");
-        String errorMessage = String.format("Error: %s (Status: %d)", ex.getMessage(), HttpStatus.NOT_FOUND.value());
+        String errorMessage = String.format(ex.getMessage(), HttpStatus.NOT_FOUND.value());
         return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
     }
 
@@ -39,8 +39,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleGenericException(Exception ex) {
         log.error("Unexpected error occured");
-        String errorMessage = String.format("Unexpected error occurred: %s (Status: % " +
-                ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+        String errorMessage = String.format(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
         return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -48,6 +47,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleIllegalState(IllegalStateException ex) {
         log.error("Illegal state exception thrown");
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(ContactInformationUsedException.class)
+    public ResponseEntity<String> handleContactInformationUsedException(ContactInformationUsedException ex){
+        log.error("Used contact information passed");
+        String errorMessage = String.format("Error: %s (Status: %d)", ex.getMessage(), HttpStatus.CONFLICT.value());
+        return new ResponseEntity<>(errorMessage, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

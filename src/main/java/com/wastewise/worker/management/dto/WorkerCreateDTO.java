@@ -24,6 +24,6 @@ public class WorkerCreateDTO {
 
     @NotBlank(message = "Valid worker status is required")
     @ValidEnum(enumClass = WorkerStatus.class, message = "Worker status must be 'AVAILABLE'")
-    private WorkerStatus workerStatus;
+    private String workerStatus;
 
 }
