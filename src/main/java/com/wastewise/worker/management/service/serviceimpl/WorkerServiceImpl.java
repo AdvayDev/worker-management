@@ -117,6 +117,7 @@ public class WorkerServiceImpl implements com.wastewise.worker.management.servic
         log.info("updating details of the worker with id {}",id);
         workerMapper.updateWorkerFromDTO(dto, worker);
         worker.setUpdatedDate(LocalDateTime.now());
+        worker.setUpdatedBy("000"); //To be updated via workerId in JWT token
         workerRepository.save(worker);
         return "Updated worker with id "+worker.getWorkerId();
     }
