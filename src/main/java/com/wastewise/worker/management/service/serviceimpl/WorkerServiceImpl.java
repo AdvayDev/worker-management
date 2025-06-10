@@ -55,6 +55,7 @@ public class WorkerServiceImpl implements com.wastewise.worker.management.servic
         worker.setWorkerStatus(status);
         worker.setWorkerId(id);
         worker.setCreatedDate(LocalDateTime.now());
+        worker.setCreatedBy("000"); //To be updated using workerId in token
         workerRepository.save(worker);
         return "Created worker with id " + worker.getWorkerId();
     }
