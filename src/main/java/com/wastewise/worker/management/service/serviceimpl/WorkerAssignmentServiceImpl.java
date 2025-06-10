@@ -50,7 +50,7 @@ public class WorkerAssignmentServiceImpl implements com.wastewise.worker.managem
      * @return String message confirming the execution of the process
      */
     @Transactional
-    public String assignWorkertoAssignment(String assignmentId, String workerId, WorkerAssignmentDTO dto){
+    public String assignWorkerToAssignment(String assignmentId, String workerId, WorkerAssignmentDTO dto){
         // Step 1: Fetch the worker
         if(workerAssignmentRepository.findByIdAssignmentId(assignmentId).size()>=2){
             throw new WorkersAlreadyAssignedException("The assignment has already two workers assigned to it, please update the assignment instead of assigning any new worker");

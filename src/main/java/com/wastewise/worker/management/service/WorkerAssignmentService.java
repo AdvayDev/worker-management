@@ -4,7 +4,7 @@ import com.wastewise.worker.management.dto.WorkerAssignmentDTO;
 
 public interface WorkerAssignmentService {
 
-    String assignWorkertoAssignment(String assignmentId, String workerId, WorkerAssignmentDTO dto);
+    String assignWorkerToAssignment(String assignmentId, String workerId, WorkerAssignmentDTO dto);
 
     String updateSingleWorkerAssignment(String assignmentId, String oldWorkerId, String newWorkerId);
 

@@ -43,7 +43,7 @@ public class WorkerAssignmentController {
             @PathVariable String assignmentId,
     @Valid @RequestBody WorkerAssignmentDTO dto) {
         log.info("assigning worker");
-        String result = workerAssignmentServiceImpl.assignWorkertoAssignment(assignmentId, dto.getWorkerId(), dto);
+        String result = workerAssignmentServiceImpl.assignWorkerToAssignment(assignmentId, dto.getWorkerId(), dto);
         return ResponseEntity.ok(result);
     }
 
