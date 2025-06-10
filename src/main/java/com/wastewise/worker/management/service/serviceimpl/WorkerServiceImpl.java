@@ -116,6 +116,8 @@ public class WorkerServiceImpl implements com.wastewise.worker.management.servic
                 .orElseThrow(() -> new WorkerNotFoundException("Worker with id " + id + " does not exist"));
         log.info("updating details of the worker with id {}",id);
         workerMapper.updateWorkerFromDTO(dto, worker);
+        WorkerStatus status = WorkerStatus.valueOf(dto.getWorkerStatus());
+        worker.setWorkerStatus(status);
         worker.setUpdatedDate(LocalDateTime.now());
         worker.setUpdatedBy("000"); //To be updated via workerId in JWT token
         workerRepository.save(worker);

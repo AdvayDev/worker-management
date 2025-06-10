@@ -44,14 +44,13 @@ public class WorkerAssignmentServiceImpl implements com.wastewise.worker.managem
     }
 
     /**
-     *
-     * @param assignmentId
-     * @param workerId
-     * @return
-     * @throws WorkerNotFoundException
+     * Method creates a record with assignmentId and workerId to indicate the assignment of worker to that assignment
+     * @param assignmentId of assignment
+     * @param workerId of worker
+     * @return String message confirming the execution of the process
      */
     @Transactional
-    public String assignWorkertoAssignment(String assignmentId, String workerId, WorkerAssignmentDTO dto) throws WorkerNotFoundException, WorkersAlreadyAssignedException {
+    public String assignWorkertoAssignment(String assignmentId, String workerId, WorkerAssignmentDTO dto){
         // Step 1: Fetch the worker
         if(workerAssignmentRepository.findByIdAssignmentId(assignmentId).size()>=2){
             throw new WorkersAlreadyAssignedException("The assignment has already two workers assigned to it, please update the assignment instead of assigning any new worker");
@@ -83,9 +82,9 @@ public class WorkerAssignmentServiceImpl implements com.wastewise.worker.managem
 
     /**
      * Updating an assignment by changing assigned worker to the assignment. Also updates their status
-     * @param assignmentId
-     * @param newWorkerId
-     * @return
+     * @param assignmentId of assignment
+     * @param newWorkerId of the worker who will replace the existing worker
+     * @return String message confirming the completion of task
      */
 
     @Transactional
@@ -130,6 +129,15 @@ public class WorkerAssignmentServiceImpl implements com.wastewise.worker.managem
         return "Worker assignment updated successfully";
     }
 
+    /**
+     * Updating the assignment by replacing both the workers at same time
+     * @param assignmentId of assignment
+     * @param oldWorkerId1 of old worker 1
+     * @param oldWorkerId2 of old worker 2
+     * @param newWorkerId1 of new worker 1
+     * @param newWorkerId2 of new worker 2
+     * @return String message confirming the completion of method
+     */
     @Transactional
     public String updateBothWorkerAssignments(String assignmentId,
                                               String oldWorkerId1, String oldWorkerId2,
@@ -159,10 +167,10 @@ public class WorkerAssignmentServiceImpl implements com.wastewise.worker.managem
             }
         }
 
-        // Step 3: Delete old assignments
+        // Delete old assignments
         workerAssignmentRepository.deleteAllById(oldIds);
 
-        // Step 4: Create new assignments with old values
+        // Create new assignments with old values
         List<WorkerAssignment> newAssignments = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
             WorkerAssignment oldAssignment = oldAssignments.get(i);
@@ -177,7 +185,7 @@ public class WorkerAssignmentServiceImpl implements com.wastewise.worker.managem
             newAssignment.setShift(oldAssignment.getShift());
             newAssignment.setCreatedBy(oldAssignment.getCreatedBy());
             newAssignment.setCreatedDate(oldAssignment.getCreatedDate());
-            newAssignment.setUpdatedBy("system"); // or whoever is updating
+            newAssignment.setUpdatedBy("000"); // To be modified from workerId of whoever is updating
             newAssignment.setUpdatedDate(LocalDateTime.now());
 
             newAssignments.add(newAssignment);
@@ -208,8 +216,8 @@ public class WorkerAssignmentServiceImpl implements com.wastewise.worker.managem
 
 
     /**
-     *
-     * @param assignmentId
+     * Delete worker assignment and change the status of respective workers to AVAILABLE
+     * @param assignmentId of assignment
      * @return String message indicating the successful deletion of tuple and changing of status of workers
      */
     @Transactional
@@ -222,7 +230,7 @@ public class WorkerAssignmentServiceImpl implements com.wastewise.worker.managem
 
         // Collect all worker IDs linked to this assignment
         List<String> workerIds = assignments.stream()
-                .map(a -> a.getId().getWorkerId()) // assuming @EmbeddedId
+                .map(a -> a.getId().getWorkerId())
                 .collect(Collectors.toList());
 
         workerAssignmentRepository.deleteAll(assignments);
