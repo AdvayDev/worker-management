@@ -1,6 +1,7 @@
 package com.wastewise.worker.management.service.serviceimpl;
 
 import com.wastewise.worker.management.dto.WorkerAssignmentDTO;
+import com.wastewise.worker.management.enums.Shift;
 import com.wastewise.worker.management.enums.WorkerStatus;
 import com.wastewise.worker.management.exception.ResourceNotFoundException;
 import com.wastewise.worker.management.exception.WorkerNotFoundException;
@@ -68,7 +69,8 @@ public class WorkerAssignmentServiceImpl implements com.wastewise.worker.managem
         assignment.setCreatedDate(LocalDateTime.now());
         assignment.setRouteId(dto.getRouteId());
         assignment.setZoneId(dto.getZoneId());
-        assignment.setShift(dto.getShift());
+        Shift shift = Shift.valueOf(dto.getShift());
+        assignment.setShift(shift);
 
         workerAssignmentRepository.save(assignment);
 

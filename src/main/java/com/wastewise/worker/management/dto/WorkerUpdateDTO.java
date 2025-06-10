@@ -1,14 +1,10 @@
 package com.wastewise.worker.management.dto;
 
-import com.wastewise.worker.management.enums.WorkerStatus;
-import com.wastewise.worker.management.utility.ValidEnum;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-
-import java.time.LocalDateTime;
 
 @Data
 public class WorkerUpdateDTO {
@@ -26,6 +22,6 @@ public class WorkerUpdateDTO {
     private String roleId;
 
     @NotBlank(message = "Valid worker status is required")
-    @ValidEnum(enumClass = WorkerStatus.class, message = "Worker status must be 'AVAILABLE'")
+    @Pattern(regexp = "AVAILABLE|ABSENT|OCCUPIED", message = "Please enter valid worker status")
     private String workerStatus;
 }

@@ -1,7 +1,6 @@
 package com.wastewise.worker.management.dto;
 
-import com.wastewise.worker.management.enums.Shift;
-import com.wastewise.worker.management.utility.ValidEnum;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
@@ -25,6 +24,6 @@ public class WorkerAssignmentDTO {
     private String routeId;
 
     @NotBlank(message = "Shift cannot be blank")
-    @ValidEnum(enumClass = Shift.class, message = "Shift details should be either 'DAY' or 'NIGHT'")
-    private Shift shift;
+    @Pattern(regexp = "DAY|NIGHT", message = "Shift details should be either 'DAY' or 'NIGHT'")
+    private String shift;
 }

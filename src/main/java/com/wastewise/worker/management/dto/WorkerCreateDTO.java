@@ -1,7 +1,5 @@
 package com.wastewise.worker.management.dto;
 
-import com.wastewise.worker.management.enums.WorkerStatus;
-import com.wastewise.worker.management.utility.ValidEnum;
 import lombok.Data;
 import jakarta.validation.constraints.*;
 
@@ -23,7 +21,7 @@ public class WorkerCreateDTO {
     private String roleId;
 
     @NotBlank(message = "Valid worker status is required")
-    @ValidEnum(enumClass = WorkerStatus.class, message = "Worker status must be 'AVAILABLE'")
+    @Pattern(regexp = "AVAILABLE", message = "worker status should be available when creating")
     private String workerStatus;
 
 }
