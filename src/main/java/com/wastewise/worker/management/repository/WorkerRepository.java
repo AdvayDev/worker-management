@@ -1,8 +1,6 @@
 package com.wastewise.worker.management.repository;
 
 import com.wastewise.worker.management.model.Worker;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
