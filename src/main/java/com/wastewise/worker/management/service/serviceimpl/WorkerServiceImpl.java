@@ -45,9 +45,11 @@ public class WorkerServiceImpl implements com.wastewise.worker.management.servic
         String id = generateWorkerId();
 
         log.info("Creating new worker: {}", id);
-        if(workerRepository.existsByContactNumber(dto.getContactNumber()) ||
-                (workerRepository.existsByContactEmail(dto.getContactEmail()) && dto.getContactEmail()!= null)){
+        if(workerRepository.existsByContactNumber(dto.getContactNumber())){
             throw new ContactInformationUsedException("The given contact number is already being used, please enter a different number");
+        }
+        if(dto.getContactEmail() != null && workerRepository.existsByContactEmail(dto.getContactEmail())){
+            throw new ContactInformationUsedException("The given contact email is already being used, please enter a different email");
         }
 
         Worker worker = workerMapper.toEntity(dto);
@@ -139,6 +141,6 @@ public class WorkerServiceImpl implements com.wastewise.worker.management.servic
         worker.setWorkerStatus(workerStatus);
         workerRepository.save(worker);
 
-        return "Status of worker with id "+ id + " changes successfully";
+        return "Status of worker with id "+ id + " changed successfully";
     }
 }

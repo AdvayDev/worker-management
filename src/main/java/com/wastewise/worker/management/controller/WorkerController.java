@@ -97,8 +97,8 @@ public class WorkerController {
      * @param workerStatus worker status is passed as request body
      * @return string message confirming the updating of status
      */
-    @PutMapping("/status/{workerId}")
-    public ResponseEntity<String> updatWorkerStatus(@PathVariable String workerId, @RequestBody WorkerStatus workerStatus){
+    @PatchMapping("/status/{workerId}")
+    public ResponseEntity<String> updateWorkerStatus(@PathVariable String workerId, @RequestBody WorkerStatus workerStatus){
         log.info("Updating the status of worker with id {} to status {}", workerId, workerStatus);
         return ResponseEntity.ok(workerServiceImpl.changeWorkerStatus(workerId, workerStatus));
     }
