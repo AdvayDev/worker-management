@@ -116,6 +116,13 @@ public class WorkerServiceImpl implements com.wastewise.worker.management.servic
         log.info("fetching worker with id {} to update", id);
         Worker worker = workerRepository.findById(id)
                 .orElseThrow(() -> new WorkerNotFoundException("Worker with id " + id + " does not exist"));
+        if(workerRepository.existsByContactNumberAndWorkerIdNot(dto.getContactNumber(), id)){
+            throw new ContactInformationUsedException("Contact number already being used by another worker");
+        }
+        if(workerRepository.existsByContactEmailAndWorkerIdNot(dto.getContactEmail(),id)){
+            throw new ContactInformationUsedException("Contact email is already being used by another worker");
+        }
+
         log.info("updating details of the worker with id {}",id);
         workerMapper.updateWorkerFromDTO(dto, worker);
         WorkerStatus status = WorkerStatus.valueOf(dto.getWorkerStatus());

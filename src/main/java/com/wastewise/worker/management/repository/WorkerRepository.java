@@ -22,4 +22,8 @@ public interface WorkerRepository extends JpaRepository<Worker,String> {
     boolean existsByContactNumber(String contactNumber);
 
     boolean existsByContactEmail(String contactEmail);
+
+    boolean existsByContactNumberAndWorkerIdNot(String number, String id);
+
+    boolean existsByContactEmailAndWorkerIdNot(String email, String id);
 }
